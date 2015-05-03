@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* line 5, ../../../../../../../var/lib/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -61,4 +62,36 @@ a img {
 /* line 116, ../../../../../../../var/lib/gems/1.9.1/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
   display: block;
+}
+
+/* line 4, ../sass/dialog.scss */
+.win_dialogBox {
+  position: fixed;
+  border: 1px solid #000;
+  -moz-box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+/* line 9, ../sass/dialog.scss */
+.win_dialogBox .win_dialogClosed {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: #0cf;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
+  font-size: 20px;
+  font-family: "微软雅黑";
+  cursor: pointer;
+}
+/* line 24, ../sass/dialog.scss */
+.win_dialogBox .win_dialogConfirm {
+  width: 100px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -50px;
 }

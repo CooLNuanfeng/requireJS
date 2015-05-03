@@ -1,1 +1,32 @@
 @import "compass/reset";
+@import "compass";
+
+.win_dialogBox{
+	position: fixed;
+	border: 1px solid #000;
+	@include box-shadow(0 0 12px rgba(0,0,0,0.5));
+
+	.win_dialogClosed{
+		width: 25px;
+		height: 25px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		background-color: #0cf;
+		color: #fff;
+		text-align: center;
+		line-height: 25px;
+		font-size: 20px;
+		font-family: "微软雅黑";
+		cursor: pointer;
+	}
+
+	.win_dialogConfirm{
+		width: 100px;
+		position: absolute;
+		bottom: 10px;
+		left: 50%;
+		margin-left: -50px;
+	}
+}
+

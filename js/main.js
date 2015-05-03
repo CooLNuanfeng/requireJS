@@ -1,11 +1,24 @@
 require.config = {
-
+	path : {
+		'jquery' : '../bower_components/jquery/dist/jquery.js'
+	}
 };
 
-require(['dialog','animate'],function(D,A){
+require(['jquery','dialog'],function($,D){
 	var dialog = new D.Dialog();
-	var animate = new A.Animate();
-
-	dialog.alert();
-	alert(animate.name);
+	$('#dialog').click(function() {
+		dialog.alert({
+			y:100,
+			content : 'Hello dialog is born',
+			width : 400,
+			height : 300,
+			handerConfirm : function(){
+				alert('you clicked sure');
+			},
+			handerClose : function(){
+				alert('you clicked closed');
+			}
+		});
+	});
+	
 });

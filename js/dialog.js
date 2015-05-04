@@ -14,12 +14,13 @@ define(['jquery'],function($){
 			mask : true,
 			drag : false
 		};
+		this.handler = {};
 	}
 
 	Dialog.prototype = {
 		constructor : 'Dialog',
 		alert : function(cfg){
-
+			var _this = this;
 			var config = $.extend(this.config,cfg);
 			
 			
@@ -38,22 +39,28 @@ define(['jquery'],function($){
 				$dialog_close.appendTo($dialogBox);
 				//关闭按钮
 				$dialog_close.click(function() {
-					config.handerClose && config.handerClose();
+					//config.handerClose && config.handerClose();
 					$dialogBox.remove();
-					if( config.mask ){
-						 $mask.remove();
-					}
+					config.mask && $mask.remove();
+					_this.fire('close');
 				});
+				//关闭按钮 回调
+				if(config.handerClose){
+					this.on('close',config.handerClose);
+				}
 			}
 				
 			//确认按钮
 			$dialog_btn.click(function() {
-				config.handerConfirm && config.handerConfirm();
+				//config.handerConfirm && config.handerConfirm();
 				$dialogBox.remove();
-				if( config.mask ){
-					 $mask.remove();
-				}
+				config.mask && $mask.remove();
+				_this.fire('confirm');
 			});
+			//确认按钮 回调
+			if(config.handerConfirm){
+				this.on('confirm',config.handerConfirm);
+			}
 
 			$dialogBox.css({
 				width : config.width,
@@ -70,29 +77,14 @@ define(['jquery'],function($){
 
 			//拖动
 			if(config.drag){
-				$('.win_dialogHead').css('cursor','all-scroll');
-				$('.win_dialogHead').on('mousedown',function(ev){
-					var disX = ev.pageX - $(this).offset().left;
-					var disY = ev.pageY - $(this).offset().top;
-
-					$(document).on('mousemove',function(ev){
-						$dialogBox.css({
-							left : ev.pageX - disX,
-							top : ev.pageY - disY
-						});
-					});
-					$(document).on('mouseup',function(){
-						$(document).off('mousemove');
-						$(document).off('mouseup');
-					});
-
-					return false;
-				});
+				this.drag($dialogBox);
 			}
 			//换肤
 			if(config.skinClassName){
 				$dialogBox.addClass(config.skinClassName);
 			}
+
+			return this;
 		},
 
 		confirm : function(){
@@ -101,10 +93,52 @@ define(['jquery'],function($){
 
 		prompt : function(){
 			console.log('dialog prompt');
+		},
+
+		//自定义事件 绑定
+		on : function(type,fn){
+			if(typeof this.handler[type] == "undefined"){
+				this.handler[type] = [];
+			}
+
+			this.handler[type].push(fn);
+
+			return this;
+		},
+		//自定义事件 触发
+		fire : function(type,data){
+			if(this.handler[type] instanceof Array){
+				var handlerArr = this.handler[type];
+				for(var i=0; i<handlerArr.length; i++){
+					handlerArr[i](data);
+				}
+			}
+		},
+
+		//拖动公用函数
+		drag : function(obj){
+			$('.win_dialogHead').css('cursor','all-scroll');
+			$('.win_dialogHead').on('mousedown',function(ev){
+				var disX = ev.pageX - $(this).offset().left;
+				var disY = ev.pageY - $(this).offset().top;
+
+				$(document).on('mousemove',function(ev){
+					obj.css({
+						left : ev.pageX - disX,
+						top : ev.pageY - disY
+					});
+				});
+				$(document).on('mouseup',function(){
+					$(document).off('mousemove');
+					$(document).off('mouseup');
+				});
+
+				return false;
+			});
 		}
 	};
 
-
+	
 	return {
 		Dialog: Dialog
 	};
